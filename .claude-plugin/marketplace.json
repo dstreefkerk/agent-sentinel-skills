@@ -1,0 +1,15 @@
+{
+  "name": "agent-sentinel-skills",
+  "owner": {
+    "name": "Daniel Streefkerk",
+    "url": "https://dstreefkerk.github.io/"
+  },
+  "plugins": [
+    {
+      "name": "microsoft-sentinel",
+      "source": "./",
+      "description": "Microsoft Sentinel skills: ARM template generator and use case documentor",
+      "version": "1.0.0"
+    }
+  ]
+}
