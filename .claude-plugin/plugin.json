@@ -1,7 +1,7 @@
 {
   "name": "microsoft-sentinel",
-  "version": "1.0.0",
-  "description": "Microsoft Sentinel skills for Claude Code. Generate ARM templates from KQL queries and document analytics rules as SOC use cases.",
+  "version": "1.1.0",
+  "description": "Microsoft Sentinel skills for Claude Code. KQL query optimization and validation, ARM template generation from KQL queries, and analytics rule documentation as SOC use cases.",
   "author": {
     "name": "Daniel Streefkerk",
     "url": "https://dstreefkerk.github.io/"
