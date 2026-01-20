@@ -25,6 +25,7 @@ Copy the `skills/` directory to `~/.codex/skills`.
 
 | Skill | Description |
 |-------|-------------|
+| `kql-expert` | KQL query optimization, schema validation, analytics rule development, ASIM normalization, SPL migration, and best practice compliance for Microsoft Sentinel and M365 Defender |
 | `sentinel-arm-generator` | Generates deployment-ready Microsoft Sentinel Analytic Rule ARM templates from KQL queries with intelligent MITRE mappings, entity extraction, and metadata generation |
 | `sentinel-use-case-documentor` | Documents Microsoft Sentinel analytics rules as comprehensive SOC use cases from ARM templates or KQL detection queries |
 
