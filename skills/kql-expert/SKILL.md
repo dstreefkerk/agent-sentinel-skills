@@ -197,6 +197,7 @@ SigninLogs
 | No time in subqueries | Subquery scans all | Add filter to each |
 | `sort by \| take N` | Full sort | Use `top N by` |
 | Large table on left | Inefficient join | Small table left |
+| `parse` for structured strings | Fragile; breaks if schema changes | Use `extract()` or `parse_json()` |
 
 ### Contains Elimination Patterns
 
@@ -207,6 +208,31 @@ Expert patterns for replacing expensive `contains`:
 - `contains "cmd /c"` → Keep contains (complex pattern) ❌
 
 **Rule**: If the contains target has a 3+ character word boundary term, extract it for `has`.
+
+### Robust String Parsing
+
+The `parse` operator is sensitive to exact string formats and breaks silently when upstream schemas change (spacing, field order, new fields):
+
+```kql
+// FRAGILE - breaks if format changes
+| parse KeyDescription with "KeyIdentifier=" KeyId ", KeyType=" KeyType ", KeyUsage=" KeyUsage
+
+// ROBUST - extract with regex (tolerant of spacing/order changes)
+| extend KeyId = extract(@"KeyIdentifier=([^,]+)", 1, KeyDescription)
+| extend KeyType = extract(@"KeyType=([^,]+)", 1, KeyDescription)
+
+// ROBUST - if the value is JSON-formatted
+| extend ParsedKey = parse_json(newValue)
+| extend KeyId = tostring(ParsedKey.KeyIdentifier)
+```
+
+**When to use each approach:**
+
+| Method | Use When |
+|--------|----------|
+| `parse` | Format is guaranteed stable AND you need all fields in sequence |
+| `extract()` | Need specific fields, format may vary, or fields may be reordered |
+| `parse_json()` | Data is JSON (extract JSON portion first if prefixed with text) |
 
 ## Resource Thresholds
 
@@ -409,6 +435,7 @@ This skill supports detection across all MITRE tactics:
 
 | Version | Changes |
 |---------|---------|
+| 2.2.3 | Added Robust String Parsing section warning about fragile `parse` operator; recommend `extract()` or `parse_json()` |
 | 2.2.2 | Enhanced proactive triggers with specific user phrasing patterns and explicit .kql file extension detection |
 | 2.2.1 | Clarified environments.json should only be accessed via schema_validator.py, not read directly |
 | 2.2.0 | Added Proactive Usage section with trigger patterns and file detection guidance |
@@ -418,5 +445,5 @@ This skill supports detection across all MITRE tactics:
 
 ---
 
-**Version**: 2.2.2
+**Version**: 2.2.3
 **Last Updated**: January 2026
